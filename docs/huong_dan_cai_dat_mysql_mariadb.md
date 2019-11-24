@@ -93,6 +93,30 @@ Chạy lệnh được tích hợp sẵn `sudo mysql_secure_installation` để 
 
     mysql>
     ```
+- Thực hiện truy vấn sql cơ bản.
+    ```
+    +-----------+------+-------------------------------------------+
+    | host      | user | password                                  |
+    +-----------+------+-------------------------------------------+
+    | localhost | root | *B4B1E6BC13CBA73BC4C2B05F6F1393D16F2EE840 |
+    | 127.0.0.1 | root | *B4B1E6BC13CBA73BC4C2B05F6F1393D16F2EE840 |
+    | ::1       | root | *B4B1E6BC13CBA73BC4C2B05F6F1393D16F2EE840 |
+    | %         | root |                                           |
+    +-----------+------+-------------------------------------------+
+    4 rows in set (0.00 sec)
+    ```
+
+Tới đây, bạn đã có thể truy cập trực tiếp vào MySQL trên máy đó. Đối với trường hợp bạn cần dùng các công cụ như: `Navicat, MySQL Workbench, HeideSQL` hoặc kết nối tới MySQL từ một máy khác thì bạn cần phân quyền việc này. *Lưu ý*, việc phân quyền này cần làm cẩn thận và hạn chế khi làm ở các hệ thống thật vì lý do bảo mật.
+
+- Thực hiện phân quyền cho tài khoản `root` của MySQL có thể đăng nhập từ hệ thống khác.
+
+```
+grant all privileges on *. * to 'root'@'%';
+
+FLUSH PRIVILEGES;
+```
+
+
 
 ## 2. Cài đặt MariaDB 10.x trên CentOS 7
 
