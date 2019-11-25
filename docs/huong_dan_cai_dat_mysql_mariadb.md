@@ -135,3 +135,36 @@ FLUSH PRIVILEGES;
     ```
     rpm -Uvh https://repo.mysql.com/mysql80-community-release-el7-3.noarch.rpm
     ```
+
+- Disable các phiên bản khác của MySQL để cài MySQL 8.0
+    ```
+    sed -i 's/enabled=1/enabled=0/' /etc/yum.repos.d/mysql-community.repo
+    ```
+
+- Thực hiện cài đặt MySQL 8.0
+    ```
+    yum --enablerepo=mysql80-community install mysql-community-server
+    ```
+
+- Khởi động MySQL
+    ```
+    systemctl start mysqld 
+    ```
+
+- Trong phiên bản MySQL 8.0, mật khẩu mặc định của tài khoản `root` của MySQL nằm trong file log của MySQL. Thực hiện lệnh sau để kiểm tra mật khẩu.
+    ```
+    grep "A temporary password" /var/log/mysqld.log
+    ```
+
+Ta sẽ thấy thông tin mật khẩu giống như kết quả dưới (Lưu ý, đối với mỗi máy cài đặt khác nhau thì chuỗi này sẽ khác nhau)
+
+
+
+
+
+
+
+
+
+
+
