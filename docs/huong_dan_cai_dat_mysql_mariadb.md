@@ -143,7 +143,7 @@ FLUSH PRIVILEGES;
 
 - Thực hiện cài đặt MySQL 8.0
     ```
-    yum --enablerepo=mysql80-community install mysql-community-server
+    yum --enablerepo=mysql80-community install -y mysql-community-server
     ```
 
 - Khởi động MySQL
@@ -158,13 +158,55 @@ FLUSH PRIVILEGES;
 
 Ta sẽ thấy thông tin mật khẩu giống như kết quả dưới (Lưu ý, đối với mỗi máy cài đặt khác nhau thì chuỗi này sẽ khác nhau)
 
+```
+[root@c7srv02 yum.repos.d]# grep "A temporary password" /var/log/mysqld.log
+2019-11-25T16:09:58.389738Z 5 [Note] [MY-010454] [Server] A temporary password is generated for root@localhost: vgZ0cwDfQp=/
+```
+
+Sử dụng mật khẩu ở trên để đăng nhập vào MySQL ở bước theo.
+
+- Thực hiện các thiết lập lần đầu sử dụng cho MySQL, thực hiện lệnh
+    ```
+    mysql_secure_installation
+    ```
+
+Khi được hỏi mật khẩu của tài khoản `root`, hãy nhập vào mật khẩu và làm theo các hướng dẫn tiếp theo.
+    ```
+    [root@c7srv02 yum.repos.d]# mysql_secure_installation
+
+    Securing the MySQL server deployment.
+
+    Enter password for user root:
+```
+
+- Sau khi nhập mật khẩu lần đầu cài đặt, thực hiện thay đổi mật khẩu mới do người dùng chỉ định tại dòng.
+    ```
+    New password:
+
+    Re-enter new password:
+    ```
+
+Lưu ý: Mật khẩu phải chứa đủ ký tự hoa, ký tự thường, số và ký tự đặt biệt.
 
 
+- Thực hiện tùy chọn `Y` cho một số câu hỏi để đảm bảo các thiết lập được an toàn nhất với MySQL. Cụ thể là:
+    ```
+    Remove anonymous users? (Press y|Y for Yes, any other key for No) : Y
 
+    Disallow root login remotely? (Press y|Y for Yes, any other key for No) : Y
 
+    Remove test database and access to it? (Press y|Y for Yes, any other key for No) : Y
 
+    Reload privilege tables now? (Press y|Y for Yes, any other key for No) : Y
+    ```
 
+- Thực hiện restart MySQL
+    ```
+    systemctl restart mysqld
+    ```
 
-
-
+- Khởi động MySQL cùng OS.
+    ```
+    systemctl enable mysqld
+    ```
 
