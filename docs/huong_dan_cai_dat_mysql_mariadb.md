@@ -186,7 +186,7 @@ Khi được hỏi mật khẩu của tài khoản `root`, hãy nhập vào mậ
     Re-enter new password:
     ```
 
-Lưu ý: Mật khẩu phải chứa đủ ký tự hoa, ký tự thường, số và ký tự đặt biệt.
+Lưu ý: Mật khẩu phải chứa đủ ký tự hoa, ký tự thường, số và ký tự đặc biệt.
 
 
 - Thực hiện tùy chọn `Y` cho một số câu hỏi để đảm bảo các thiết lập được an toàn nhất với MySQL. Cụ thể là:
@@ -210,3 +210,44 @@ Lưu ý: Mật khẩu phải chứa đủ ký tự hoa, ký tự thường, số
     systemctl enable mysqld
     ```
 
+- Kiểm tra lại dịch vụ MySQL xem đã hoạt động hay chưa bằng lệnh `systemctl status mysqld`. Kết quả ta sẽ có như bên dưới.
+    ```
+    [root@c7srv02 yum.repos.d]# systemctl status mysqld
+    ● mysqld.service - MySQL Server
+    Loaded: loaded (/usr/lib/systemd/system/mysqld.service; enabled; vendor preset: disabled)
+    Active: active (running) since Mon 2019-11-25 23:30:16 +07; 8s ago
+        Docs: man:mysqld(8)
+            http://dev.mysql.com/doc/refman/en/using-systemd.html
+    Main PID: 59734 (mysqld)
+    Status: "Server is operational"
+    CGroup: /system.slice/mysqld.service
+            └─59734 /usr/sbin/mysqld
+
+    Nov 25 23:30:15 c7srv02 systemd[1]: Starting MySQL Server...
+    Nov 25 23:30:16 c7srv02 systemd[1]: Started MySQL Server.
+    ```
+
+- Đăng nhập thử vào MySQL
+    ```
+    mysql -u root -p
+    ```
+
+Nhập mật khẩu vừa thiết lập ở trên, ta sẽ có màn hình CLI của MySQL như sau:
+
+    ```
+    [root@c7srv02 yum.repos.d]# mysql -u root -p
+    Enter password:
+    Welcome to the MySQL monitor.  Commands end with ; or \g.
+    Your MySQL connection id is 8
+    Server version: 8.0.18 MySQL Community Server - GPL
+
+    Copyright (c) 2000, 2019, Oracle and/or its affiliates. All rights reserved.
+
+    Oracle is a registered trademark of Oracle Corporation and/or its
+    affiliates. Other names may be trademarks of their respective
+    owners.
+
+    Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+    mysql>
+    ```
