@@ -171,13 +171,14 @@ Sử dụng mật khẩu ở trên để đăng nhập vào MySQL ở bước th
     ```
 
 Khi được hỏi mật khẩu của tài khoản `root`, hãy nhập vào mật khẩu và làm theo các hướng dẫn tiếp theo.
-    ```
-    [root@c7srv02 yum.repos.d]# mysql_secure_installation
 
-    Securing the MySQL server deployment.
+```
+[root@c7srv02 yum.repos.d]# mysql_secure_installation
 
-    Enter password for user root:
-    ```
+Securing the MySQL server deployment.
+
+Enter password for user root:
+```
 
 - Sau khi nhập mật khẩu lần đầu cài đặt, thực hiện thay đổi mật khẩu mới do người dùng chỉ định tại dòng.
     ```
@@ -250,4 +251,23 @@ Nhập mật khẩu vừa thiết lập ở trên, ta sẽ có màn hình CLI c�
     Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
 
     mysql>
+    ```
+
+- Thực hiện lệnh để kiểm tra các database
+    ```
+    show databases;
+    ```
+
+Kết quả là
+
+    ```
+    +--------------------+
+    | Database           |
+    +--------------------+
+    | information_schema |
+    | mysql              |
+    | performance_schema |
+    | sys                |
+    +--------------------+
+    4 rows in set (0.00 sec)
     ```
