@@ -177,7 +177,7 @@ Khi được hỏi mật khẩu của tài khoản `root`, hãy nhập vào mậ
     Securing the MySQL server deployment.
 
     Enter password for user root:
-```
+    ```
 
 - Sau khi nhập mật khẩu lần đầu cài đặt, thực hiện thay đổi mật khẩu mới do người dùng chỉ định tại dòng.
     ```
