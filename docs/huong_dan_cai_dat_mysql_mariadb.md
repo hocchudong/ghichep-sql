@@ -111,7 +111,7 @@ Tới đây, bạn đã có thể truy cập trực tiếp vào MySQL trên máy
 - Thực hiện phân quyền cho tài khoản `root` của MySQL có thể đăng nhập từ hệ thống khác.
 
 ```
-grant all privileges on *. * to 'root'@'%';
+GRANT ALL PRIVILEGES ON *.* TO 'root'@'%';
 
 FLUSH PRIVILEGES;
 ```
@@ -271,3 +271,29 @@ Kết quả là
     +--------------------+
     4 rows in set (0.00 sec)
     ```
+
+Khi cần đứng từ máy khác kết nối với MySQL trên server, ta thực hiện thêm bước cấp quyền cho tài khoản root bằng lệnh sau.
+
+- Đăng nhập vào MySQL
+    ```
+    mysql -u root -p
+    ```
+
+- Phân quyền cho tài khoản `root` của MySQL để có thể truy cập từ xa
+    ```
+    CREATE USER 'root'@'%' IDENTIFIED BY 'Welcome123+';
+    GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' WITH GRANT OPTION;
+    ```
+
+- Mở firewall để cho phép các máy ở xa kết nối tới MySQL
+    ```
+    firewall-cmd --add-service=mysql --permanent
+    firewall-cmd --reload
+    ```
+
+Kết nối tới MySQL bằng các công cụ như: HeidiSQL, Navicat, MySQL Workbench.
+
+![HeidiSQL](https://image.prntscr.com/image/Z8GyVYg4T4G-MK06h5yCLQ.png)
+
+![HeidiSQL](https://image.prntscr.com/image/8TRoRkD5RCur08Sa46UofQ.png)
+
