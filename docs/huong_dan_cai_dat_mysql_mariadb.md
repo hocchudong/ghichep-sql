@@ -193,7 +193,7 @@ Tới đây, bạn đã có thể truy cập trực tiếp vào MySQL trên máy
     Enter current password for root (enter for none):
     ```
 
-- Chọn `Y` khi được hỏi ở bước `Switch to unix_socket authentication [Y/n]`. Bước này là điểm mới trong phiên bản MariaDB 10.3 trở đi, nếu chọn là `n` thì ta không cần dùng mật khẩu cũng sẽ truy cập được vào MariaDB. Do vậy cần chọn `Y`.
+- Chọn `Y` khi được hỏi ở bước `Switch to unix_socket authentication [Y/n]`. 
     ```
     Switch to unix_socket authentication [Y/n] Y
     ```
@@ -231,7 +231,7 @@ Tới đây, bạn đã có thể truy cập trực tiếp vào MySQL trên máy
     Reload privilege tables now? [Y/n] Y
     ```
 
-Ta sẽ nhận được thông báo cuối cùng như sau:
+- Ta sẽ nhận được thông báo cuối cùng như sau:
 
     ```
     Cleaning up...
