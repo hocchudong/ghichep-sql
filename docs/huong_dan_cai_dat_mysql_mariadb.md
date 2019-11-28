@@ -262,7 +262,7 @@ Tới bước này ta đã thực hiện thiết lập ban đầu với MariaDB.
     MariaDB [(none)]>
     ```
 
-Để xử lý việc này, ta mở file `/etc/my.cnf.d/server.cnf`  và thêm dòng cấu hình `unix_socket=OFF` tại thẻ `[mariadb]`. Kết quả của file sửa sẽ có dạng sau ở thẻ `[mariadb]`:
+- Để xử lý việc này, ta mở file `/etc/my.cnf.d/server.cnf`  và thêm dòng cấu hình `unix_socket=OFF` tại thẻ `[mariadb]`. Kết quả của file sửa sẽ có dạng sau ở thẻ `[mariadb]`:
     ```
     [mariadb]
     unix_socket=OFF
