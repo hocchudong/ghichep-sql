@@ -232,6 +232,7 @@ Tới đây, bạn đã có thể truy cập trực tiếp vào MySQL trên máy
     ```
 
 Ta sẽ nhận được thông báo cuối cùng như sau:
+
     ```
     Cleaning up...
 
