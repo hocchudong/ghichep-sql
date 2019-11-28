@@ -40,6 +40,12 @@ Tài liệu hướng dẫn cài đặt MySQL, MariaDB để thực hành SQL. Do
     mysql  Ver 14.14 Distrib 5.6.46, for Linux (x86_64) using  EditLine wrapper
     ```
 
+- Mở firewall để cho phép các máy ở xa kết nối tới MySQL
+    ```
+    firewall-cmd --add-service=mysql --permanent
+    firewall-cmd --reload
+    ```
+
 Thực hiện khai báo mật khẩu lần đầu tiên cho MySQL.
 
 Chạy lệnh được tích hợp sẵn `sudo mysql_secure_installation` để thiết lập mật khẩu lần đầu đăng nhập đối với MySQL. Ta sẽ làm theo các hướng dẫn.
@@ -109,12 +115,11 @@ Chạy lệnh được tích hợp sẵn `sudo mysql_secure_installation` để 
 Tới đây, bạn đã có thể truy cập trực tiếp vào MySQL trên máy đó. Đối với trường hợp bạn cần dùng các công cụ như: `Navicat, MySQL Workbench, HeideSQL` hoặc kết nối tới MySQL từ một máy khác thì bạn cần phân quyền việc này. *Lưu ý*, việc phân quyền này cần làm cẩn thận và hạn chế khi làm ở các hệ thống thật vì lý do bảo mật.
 
 - Thực hiện phân quyền cho tài khoản `root` của MySQL có thể đăng nhập từ hệ thống khác.
+    ```
+    GRANT ALL PRIVILEGES ON *.* TO 'root'@'%';
 
-```
-GRANT ALL PRIVILEGES ON *.* TO 'root'@'%';
-
-FLUSH PRIVILEGES;
-```
+    FLUSH PRIVILEGES;
+    ```
 
 ## 2. Cài đặt MariaDB 10.x trên CentOS 7
 
@@ -163,11 +168,150 @@ FLUSH PRIVILEGES;
     systemctl status mariadb
     ```
 
+- Mở firewall để cho phép các máy ở xa kết nối tới MySQL
+    ```
+    firewall-cmd --add-service=mysql --permanent
+    firewall-cmd --reload
+    ```
+
 - Thực hiện thiết lập các cơ chế đảm bảo an toàn cho MariaDB
     ```
     mysql_secure_installation
     ```
 
+- Ở bước hỏi đầu tiên này, ta ấn `Enter` bởi vì ở lần cài đặt lần đầu MariaDB không có mật khẩu.
+    ```
+    root@c7srv01 ~]# mysql_secure_installation
+
+    NOTE: RUNNING ALL PARTS OF THIS SCRIPT IS RECOMMENDED FOR ALL MariaDB
+        SERVERS IN PRODUCTION USE!  PLEASE READ EACH STEP CAREFULLY!
+
+    In order to log into MariaDB to secure it, we'll need the current
+    password for the root user. If you've just installed MariaDB, and
+    haven't set the root password yet, you should just press enter here.
+
+    Enter current password for root (enter for none):
+    ```
+
+- Chọn `Y` khi được hỏi ở bước `Switch to unix_socket authentication [Y/n]`. Bước này là điểm mới trong phiên bản MariaDB 10.3 trở đi, nếu chọn là `n` thì ta không cần dùng mật khẩu cũng sẽ truy cập được vào MariaDB. Do vậy cần chọn `Y`.
+    ```
+    Switch to unix_socket authentication [Y/n] Y
+    ```
+
+- Tại bược tiếp theo, chọn `Y`
+    ```
+    Change the root password? [Y/n] Y
+    ```
+
+- Sau khi nhập mật khẩu cho tài khoản `root` của MySQL. Ta sẽ có thông báo như bên dưới.
+    ```
+    New password:
+    Re-enter new password:
+    Password updated successfully!
+    Reloading privilege tables..
+    ````
+
+- Tiếp tục chọn `Y` ở màn hình tiếp theo, tại bước này sẽ thực hiện xóa bỏ tài khoản anonymous.
+    ```
+    Remove anonymous users? [Y/n] Y
+    ```
+
+- Chọn `Y` tại màn hình `Disallow root login remotely? [Y/n] Y` để loại bỏ chế độ cho phép đăng nhập từ xa với tài khoản `root` vào MariaDB.
+    ```
+    Disallow root login remotely? [Y/n] Y
+    ```
+
+- Chọn `Y` ở màn hình `Remove test database and access to it? [Y/n] Y` để xóa database tên là `test`.
+    ```
+    Remove test database and access to it? [Y/n] Y
+    ```
+
+- Chọn `Y` ở màn hình `Reload privilege tables now? [Y/n] Y` để thực hiện reload lại MariaDB.
+    ```
+    Reload privilege tables now? [Y/n] Y
+    ```
+
+Ta sẽ nhận được thông báo cuối cùng như sau:
+    ```
+    Cleaning up...
+
+    All done!  If you've completed all of the above steps, your MariaDB
+    installation should now be secure.
+
+    Thanks for using MariaDB!
+    ```
+
+Tới bước này ta đã thực hiện thiết lập ban đầu với MariaDB. Tuy nhiên, trong MariaDB 10.3 trở đi mặc dù đã thiết lập mật khẩu cho tài khoản `root` nhưng ta vẫn có thể đăng nhập vào MariaDB mà không cần mật khẩu.
+
+- Thực hiện đăng nhập: 
+    ```
+    mysql -u root -p
+    ```
+
+- Tại dòng `Enter password:` ấn Enter và không cần nhập gì cả, ta sẽ truy cập được vào chế độ tương tác của MariaDB.
+    ```
+    Welcome to the MariaDB monitor.  Commands end with ; or \g.
+    Your MariaDB connection id is 18
+    Server version: 10.4.10-MariaDB MariaDB Server
+
+    Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+    Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+    MariaDB [(none)]>
+    ```
+
+Để xử lý việc này, ta mở file `/etc/my.cnf.d/server.cnf`  và thêm dòng cấu hình `unix_socket=OFF` tại thẻ `[mariadb]`. Kết quả của file sửa sẽ có dạng sau ở thẻ `[mariadb]`:
+    ```
+    [mariadb]
+    unix_socket=OFF
+    ```
+
+- Khởi động lại MariaDB để được áp dụng cấu hình vừa sửa ở tren
+    ```
+    systemctl restart mariadb
+    ```
+
+- Thực hiện đăng nhập lại với lệnh `mysql -u root -p`, khi được hỏi nhập mật khẩu thiết lập ở bước trên vào là ok.
+    ```
+    [root@c7srv01 ~]# mysql -u root -p
+    Enter password:
+    Welcome to the MariaDB monitor.  Commands end with ; or \g.
+    Your MariaDB connection id is 9
+    Server version: 10.4.10-MariaDB MariaDB Server
+
+    Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+    Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+    MariaDB [(none)]>
+    ```
+
+Thực hiện các câu truy vấn cơ bản.
+
+- Kiểm tra các database có trong hệ thống `show databases;`. Kết quả:
+    ```
+    +--------------------+
+    | Database           |
+    +--------------------+
+    | information_schema |
+    | mysql              |
+    | performance_schema |
+    +--------------------+
+    3 rows in set (0.001 sec)
+    ```
+
+- Kiểm tra danh sách các user có trong bảng `user` của database tên là `mysql`
+    ```
+    MariaDB [(none)]> select user,password,host from mysql.user;
+    +-------+-------------------------------------------+-----------+
+    | User  | Password                                  | Host      |
+    +-------+-------------------------------------------+-----------+
+    | root  | *5FECEAE3F1C6BB89767AC255F566E0B3B64AD11D | localhost |
+    | mysql | invalid                                   | localhost |
+    +-------+-------------------------------------------+-----------+
+    2 rows in set (0.002 sec)
+    ```
 
 ## 3. Cài đặt MySQL 8.x trên CentOS 7
 
@@ -275,6 +419,12 @@ Lưu ý: Mật khẩu phải chứa đủ ký tự hoa, ký tự thường, số
 
     Nov 25 23:30:15 c7srv02 systemd[1]: Starting MySQL Server...
     Nov 25 23:30:16 c7srv02 systemd[1]: Started MySQL Server.
+    ```
+
+- Mở firewall để cho phép các máy ở xa kết nối tới MySQL
+    ```
+    firewall-cmd --add-service=mysql --permanent
+    firewall-cmd --reload
     ```
 
 - Đăng nhập thử vào MySQL
