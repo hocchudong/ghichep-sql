@@ -116,9 +116,58 @@ GRANT ALL PRIVILEGES ON *.* TO 'root'@'%';
 FLUSH PRIVILEGES;
 ```
 
-
-
 ## 2. Cài đặt MariaDB 10.x trên CentOS 7
+
+- Cập nhật OS và cài các gói bổ trợ
+    ```
+    yum update -y 
+
+    yum install -y wget byobu yum-utils git
+
+    yum install -y epel-release
+    ```
+
+- Khai báo report cho MariaDB 10.x
+    ```
+    tee /etc/yum.repos.d/MariaDB.repo<<EOF
+    [mariadb]
+    name = MariaDB
+    baseurl = http://yum.mariadb.org/10.4/centos7-amd64
+    gpgkey=https://yum.mariadb.org/RPM-GPG-KEY-MariaDB
+    gpgcheck=1 
+    EOF
+    ```
+
+- Thực hiện update OS
+    ```
+    yum update -y
+    ```
+
+- Thực hiện cài đặt MariaDB 
+    ```
+    yum -y install MariaDB-server MariaDB-client
+    ```
+
+- Khởi động MariaDB
+    ```
+    systemctl start mariadb
+    ```
+
+- Khích hoạt MariaDB
+    ```
+    systemctl enable mariadb
+    ```
+
+- Kiểm tra lại tình trạng hoạt động của MariaDB
+    ```
+    systemctl status mariadb
+    ```
+
+- Thực hiện thiết lập các cơ chế đảm bảo an toàn cho MariaDB
+    ```
+    mysql_secure_installation
+    ```
+
 
 ## 3. Cài đặt MySQL 8.x trên CentOS 7
 
