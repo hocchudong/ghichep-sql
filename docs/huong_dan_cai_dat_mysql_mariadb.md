@@ -314,6 +314,20 @@ Thực hiện các câu truy vấn cơ bản.
     2 rows in set (0.002 sec)
     ```
 
+Khi cần đứng từ máy khác kết nối với MySQL trên server, ta thực hiện thêm bước cấp quyền cho tài khoản root bằng lệnh sau.
+
+- Đăng nhập vào MySQL
+    ```
+    mysql -u root -p
+    ```
+
+- Phân quyền cho tài khoản `root` của MySQL để có thể truy cập từ xa
+    ```
+    CREATE USER 'root'@'%' IDENTIFIED BY 'Welcome123+';
+    GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' WITH GRANT OPTION;
+    ```
+
+
 ## 3. Cài đặt MySQL 8.x trên CentOS 7
 
 - Thực hiện cập nhật OS và cài đặt các gói phần mềm bổ trợ
