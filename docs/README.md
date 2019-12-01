@@ -9,7 +9,7 @@ Tài liệu thực hành SQL được tham khảo từ
 ## Mục lục các bài thực hành
 
 1. Thực hành cài đặt MySQL hoặc MariaDB.
-Lựa chọn một trong các cách cài đặt MySQL hoặc MariaDB [tại đây](./01.huong_dan_cai_dat_mysql_mariadb.md)
-2. Thực hành tạo database, tạo bảng, chèn dữ liệu
+[Lựa chọn một trong các cách cài đặt MySQL hoặc MariaDB](./01.huong_dan_cai_dat_mysql_mariadb.md)
+2. [Thực hành tạo database, tạo bảng, chèn dữ liệu](./02.Tao_database_table_insert_du_lieu.md)
 2. Thực hành load cơ sở dữ liệu mẫu.
 3. Thực hành câu lệnh select.
